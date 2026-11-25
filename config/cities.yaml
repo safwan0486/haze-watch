@@ -1,0 +1,41 @@
+# Cities tracked by the pipeline. Add a city here and the next run picks it up —
+# no code changes needed (config-driven ingestion).
+# utc_offset_hours is used to convert UTC observations to local time
+# (none of these cities observe daylight saving time).
+cities:
+  - id: kuala_lumpur
+    name: Kuala Lumpur
+    country: Malaysia
+    latitude: 3.1390
+    longitude: 101.6869
+    utc_offset_hours: 8
+  - id: singapore
+    name: Singapore
+    country: Singapore
+    latitude: 1.3521
+    longitude: 103.8198
+    utc_offset_hours: 8
+  - id: jakarta
+    name: Jakarta
+    country: Indonesia
+    latitude: -6.2088
+    longitude: 106.8456
+    utc_offset_hours: 7
+  - id: bangkok
+    name: Bangkok
+    country: Thailand
+    latitude: 13.7563
+    longitude: 100.5018
+    utc_offset_hours: 7
+  - id: manila
+    name: Manila
+    country: Philippines
+    latitude: 14.5995
+    longitude: 120.9842
+    utc_offset_hours: 8
+  - id: ho_chi_minh_city
+    name: Ho Chi Minh City
+    country: Vietnam
+    latitude: 10.8231
+    longitude: 106.6297
+    utc_offset_hours: 7

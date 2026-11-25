@@ -1,0 +1,38 @@
+# Local stack:
+#   docker compose run --rm pipeline      # one-off backfill (7 days)
+#   docker compose up -d airflow dashboard
+#   Airflow UI  -> http://localhost:8080  (user: admin, password: see `docker compose logs airflow`)
+#   Dashboard   -> http://localhost:8501
+services:
+  pipeline:
+    build: .
+    volumes:
+      - ./data:/app/data
+
+  dashboard:
+    build: .
+    command: ["streamlit", "run", "dashboard/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+
+  airflow:
+    image: apache/airflow:2.10.5-python3.12
+    command: standalone
+    ports:
+      - "8080:8080"
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__DAGS_FOLDER: /opt/hazewatch/dags
+      HAZEWATCH_HOME: /opt/hazewatch
+      PYTHONPATH: /opt/hazewatch/src
+      _PIP_ADDITIONAL_REQUIREMENTS: "duckdb>=1.1 PyYAML>=6.0"
+    volumes:
+      - ./dags:/opt/hazewatch/dags
+      - ./src:/opt/hazewatch/src
+      - ./config:/opt/hazewatch/config
+      - ./sql:/opt/hazewatch/sql
+      - ./data:/opt/hazewatch/data
+    restart: unless-stopped
